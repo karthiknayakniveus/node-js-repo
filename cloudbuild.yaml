@@ -5,13 +5,21 @@ steps:
 
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'node-js-app', '.']
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/niveus-gcp-training-4/karthik-node-app/my-node-js-app:latest', '.']
 
 
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['images']
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      gcloud auth list
+      gcloud config list
+      gcloud auth configure-docker us-central1-docker.pkg.dev
 
 
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us-central1-docker.pkg.dev/niveus-gcp-training-4/karthik-node-app/my-node-js-app:latest']
+
+
 
